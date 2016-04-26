@@ -12,6 +12,7 @@ jar {
     baseName = 'teaching-algorithms'
     version = '1.0.3'
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -39,4 +40,15 @@ eclipse {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
+}
+
+task runnableJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'TeachingAlgorithms',
+                'Implementation-Version': '1.0.3',
+                'Main-Class': 'teachingalgorithms.TeachingAlgorithms'
+    }
+    baseName = 'teaching-algorithms'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
