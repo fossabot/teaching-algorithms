@@ -1,3 +1,23 @@
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package teachingalgorithms.ui.components;
 
 import java.awt.Color;
@@ -8,29 +28,14 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-// TODO: Auto-generated Javadoc
-
 /**
- * @author Moritz Floeter
- *         <p>
+ * <p>
  *         The Class BinaryTreePanel. This panel renders a string-array
  *         as a binary tree The array gets displayed as follows: a[0]->rootnode,
  *         a[1]->left child of root, a[2]->right child of root, a[3]->left child of
  *         a[1], a[4]->right child of a[1], a[5]->left child of a[2], ...
- *         <p>
- *         --------------------------------------------------------------------
- *         This program is free software: you can redistribute it and/or modify
- *         it under the terms of the GNU General Public License as published by
- *         the Free Software Foundation, either version 3 of the License, or
- *         (at your option) any later version.
- *         <p>
- *         This program is distributed in the hope that it will be useful,
- *         but WITHOUT ANY WARRANTY; without even the implied warranty of
- *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *         GNU General Public License for more details.
- *         <p>
- *         You should have received a copy of the GNU General Public License
- *         along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * </p>
+ * @author Moritz Floeter
  */
 
 public class BinaryTreePanel extends JPanel {
@@ -39,7 +44,7 @@ public class BinaryTreePanel extends JPanel {
      * FONT. defines the font which is used in the BinaryTreePanel. This should
      * always be a Monospace Font.
      */
-    public static final Font FONT = new Font("Courier", 0, 20);
+    private static final Font FONT = new Font("Courier", 0, 20);
     private static final long serialVersionUID = 1661954419258085501L;
     /**
      * The tree array.

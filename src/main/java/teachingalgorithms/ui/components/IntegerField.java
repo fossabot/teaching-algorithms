@@ -1,20 +1,41 @@
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package teachingalgorithms.ui.components;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Objects;
 
 import javax.swing.JTextField;
 
 /**
- * @author Moritz Floeter
- *         <p>
+ * <p>
  *         The Class IntegerField. This Class is basically an implementation of a
  *         TextField that only accepts integers (more specifically positive integers) in
  *         a certain range that is defined by a minimum and maximum passed to the
  *         constructor.
- *         <p>
+ * </p>
+ * <p>
  *         Why not use a simple JSPinner instead? Amazingly those things perform
  *         differently under OSX and Windows (not tested on Linux but perhaps they have
  *         their own parallel life there too). While working perfectly fine on OSX in
@@ -22,24 +43,13 @@ import javax.swing.JTextField;
  *         writing my own class, I have the luxury of being under the impression that I
  *         am actually in control of what's happening. And if I am not sure whether the
  *         inputs are correct, I can always call the validateValue() method.
- *         <p>
+ * </p>
+ * <p>
  *         And when a class like this is quickly written - why bother looking for an
  *         alternative (JFormattedTextField etc) that would also need evaluation and
  *         testing:)
- *         <p>
- *         --------------------------------------------------------------------
- *         This program is free software: you can redistribute it and/or modify
- *         it under the terms of the GNU General Public License as published by
- *         the Free Software Foundation, either version 3 of the License, or
- *         (at your option) any later version.
- *         <p>
- *         This program is distributed in the hope that it will be useful,
- *         but WITHOUT ANY WARRANTY; without even the implied warranty of
- *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *         GNU General Public License for more details.
- *         <p>
- *         You should have received a copy of the GNU General Public License
- *         along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * </p>
+ * @author Moritz Floeter
  */
 public class IntegerField extends JTextField implements FocusListener {
 
@@ -87,15 +97,14 @@ public class IntegerField extends JTextField implements FocusListener {
      *
      * @return the int value
      */
-    public int getInt() {
-
-        int i = 0;
+    public Integer getInt() {
+        Integer toReturn = null;
         try {
-            i = Integer.parseInt(this.getText());
+            toReturn = Integer.parseInt(this.getText());
         } catch (NumberFormatException exception) {
-            i = 2147483646;
+            // do nothing
         }
-        return i;
+        return toReturn;
     }
 
     /**
@@ -107,20 +116,21 @@ public class IntegerField extends JTextField implements FocusListener {
             text = text.substring(1);
         }
         this.setText(text);
-        int number = 2147483646;
+        Integer number = null;
         try {
             number = Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            number = 2147483646;
-            System.out.println("Fehlerhafte eingabe. Zu gross fuer integer");
+            // do nothing
         }
 
-        if (number < min) {
-            this.setText("" + min);
-        } else if (number > max) {
-            this.setText("" + max);
-        } else {
-            this.setText("" + number);
+        if (Objects.nonNull(number)) {
+            if (number < min) {
+                this.setText("" + min);
+            } else if (number > max) {
+                this.setText("" + max);
+            } else {
+                this.setText("" + number);
+            }
         }
     }
 

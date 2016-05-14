@@ -1,52 +1,50 @@
-package teachingalgorithms.ui.windows.sorting;
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+package teachingalgorithms.ui.windows;
 
-import javax.swing.BorderFactory;
+import java.awt.*;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import teachingalgorithms.ui.components.DragScrollListener;
-import teachingalgorithms.ui.components.GeneralGuiFunctions;
 import teachingalgorithms.ui.components.LongerTooltipListener;
-import teachingalgorithms.ui.components.TooltipSettingChangeListener;
 
 /**
- * The Class SortingWindow.
- *
- * @author Moritz Floeter
- *         <p>
+ * <p>
  *         The Class SortingWindow. This class serves as a template for the
  *         graphical representation of any algorithm that can be divided into
  *         steps in a gui frame. From here all important actions concerning the
  *         sorting algorithm can be performed and displayed.
- *         <p>
- *         --------------------------------------------------------------------
- *         This program is free software: you can redistribute it and/or modify
- *         it under the terms of the GNU General Public License as published by
- *         the Free Software Foundation, either version 3 of the License, or (at
- *         your option) any later version.
- *         <p>
- *         This program is distributed in the hope that it will be useful, but
- *         WITHOUT ANY WARRANTY; without even the implied warranty of
- *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- *         General Public License for more details.
- *         <p>
- *         You should have received a copy of the GNU General Public License
- *         along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * </p>
+ * @author Moritz Floeter
  */
-public abstract class SortingWindowSubstructure extends JFrame implements TooltipSettingChangeListener, ChangeListener {
+public abstract class AlgorithmWindowSubstructure extends WindowSubstructure {
 
     /**
      * The Constant serialVersionUID.
@@ -63,28 +61,27 @@ public abstract class SortingWindowSubstructure extends JFrame implements Toolti
     /**
      * The next step.
      */
-    protected JButton nextStep = new JButton("<html> &nbsp; <br>n&auml;chster Schritt<br> &nbsp; </html>");
+    protected JButton nextStep;
     /**
      * The undo step.
      */
-    protected JButton undoStep = new JButton(
-            "<html>  &nbsp; <br>Schritt r&uuml;ckg&auml;ngig machen<br> &nbsp; </html>");
+    protected JButton undoStep;
     /**
      * The all steps.
      */
-    protected JButton allSteps = new JButton("<html>  &nbsp; <br>komplett ausf&uuml;hren <br> &nbsp; </html>");
+    protected JButton allSteps;
     /**
      * The export btn.
      */
-    protected JButton exportBtn = new JButton("<html> &nbsp; <br>exportieren (LaTeX) <br> &nbsp; </html>");
+    protected JButton exportBtn;
     /**
      * The info btn.
      */
-    protected JButton infoBtn = new JButton("<html> &nbsp; <br>Zusatzinformationen<br> &nbsp; </html>");
+    protected JButton infoBtn;
     /**
      * The reset.
      */
-    protected JButton reset = new JButton("<html>&nbsp; <br>auf Anfang zur&uuml;cksetzen <br> &nbsp;</html>");
+    protected JButton reset;
     /**
      * The protocol pnl.
      */
@@ -96,43 +93,56 @@ public abstract class SortingWindowSubstructure extends JFrame implements Toolti
     /**
      * The tooltip checkbox.
      */
-    private JCheckBox tooltipCheckbox = new JCheckBox("<html>Erkl&auml;rungen aktivieren/deaktivieren</html>", LongerTooltipListener.isActive());
+    private JCheckBox tooltipCheckbox;
 
     /**
      * Instantiates a new sorting window.
      *
      * @param parent the parent
      */
-    public SortingWindowSubstructure(JFrame parent) {
-        super("Sortieralgorithmus");
+    public AlgorithmWindowSubstructure(JFrame parent) {
+        super();
+
+        nextStep = new JButton();
+        undoStep = new JButton();
+        allSteps = new JButton();
+        exportBtn = new JButton();
+        infoBtn = new JButton();
+        reset = new JButton();
+        tooltipCheckbox = new JCheckBox("", LongerTooltipListener.isActive());;
+
         JPanel mainpanel = new JPanel();
         this.getContentPane().add(mainpanel);
         mainpanel.setLayout(new BorderLayout());
-        LongerTooltipListener.addListener(this);
-        tooltipCheckbox.addChangeListener(this);
+
+        mainpanel.add(menuBar, BorderLayout.NORTH);
+
+        LongerTooltipListener.addListener(e -> tooltipSettingChanged(tooltipCheckbox.isSelected()));
+        tooltipCheckbox.addChangeListener(changeEvent -> activateTooltip(changeEvent));
 
         // Creating and inserting layouts for the right area of the window
         JPanel right = new JPanel();
         mainpanel.add(right, BorderLayout.EAST);
         right.setLayout(new BorderLayout());
         Box righttop = Box.createVerticalBox();
+        JPanel righttopPanel = new JPanel();
+        righttopPanel.setLayout(new GridLayout(0,1));
 
         // adding buttons
-        righttop.add(nextStep);
-        righttop.add(undoStep);
-        righttop.add(allSteps);
-        righttop.add(reset);
-        righttop.add(tooltipCheckbox);
-        JLabel descriptionForTooltip = new JLabel("<html><i> Wenn der Mauszeiger sich &uuml;ber einem<br>"
-                + "Schritt im Protokoll befindet, wird eine<br>" + "Erkl&auml;rung zu diesem angezeigt.</i></html>");
-        descriptionForTooltip.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        ;
-        righttop.add(descriptionForTooltip);
+        righttopPanel.add(nextStep);
+        righttopPanel.add(undoStep);
+        righttopPanel.add(allSteps);
+        righttopPanel.add(reset);
+        righttopPanel.add(tooltipCheckbox);
+
+        righttop.add(righttopPanel);
 
         right.add(righttop, BorderLayout.NORTH);
         Box rightbottom = Box.createVerticalBox();
-        rightbottom.add(infoBtn);
-        rightbottom.add(exportBtn);
+        JPanel rightbottomPanel = new JPanel();
+        rightbottomPanel.add(infoBtn);
+        rightbottomPanel.add(exportBtn);
+        rightbottom.add(rightbottomPanel);
         right.add(rightbottom, BorderLayout.SOUTH);
 
         // Creating the main area of the window where the protocol is shown
@@ -159,22 +169,22 @@ public abstract class SortingWindowSubstructure extends JFrame implements Toolti
         // top of the area.
         protocolPnl.add(protocolListPnl, BorderLayout.NORTH);
 
+        setTextToWindow();
+
         // setting default window parameters
         this.setMinimumSize(new Dimension(600, 450));
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
         setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        GeneralGuiFunctions.enableOSXFullscreen(this);
-
     }
 
     /**
      * adds panel to protocol panel.
      *
-     * @param heapSortPanelExtended the panel
+     * @param stepPanel the panel
      */
-    protected void add2protocol(JPanel heapSortPanelExtended) {
+    protected void add2protocol(JPanel stepPanel) {
         // the panel pushleft serves the purpose of aligning the protocol to the
         // left side of the protocol area
         JPanel pushleft = new JPanel();
@@ -183,10 +193,10 @@ public abstract class SortingWindowSubstructure extends JFrame implements Toolti
 
         pushleft.setBackground(Color.WHITE);
         pushleft.setLayout(new BorderLayout());
-        pushleft.add(heapSortPanelExtended, BorderLayout.WEST);
+        pushleft.add(stepPanel, BorderLayout.WEST);
 
-        heapSortPanelExtended.addMouseListener(dragScroll);
-        heapSortPanelExtended.addMouseMotionListener(dragScroll);
+        stepPanel.addMouseListener(dragScroll);
+        stepPanel.addMouseMotionListener(dragScroll);
 
         protocolListPnl.add(pushleft);
     }
@@ -198,10 +208,7 @@ public abstract class SortingWindowSubstructure extends JFrame implements Toolti
         protocolListPnl.remove(protocolListPnl.getComponentCount() - 1);
     }
 
-    /* (non-Javadoc)
-     * @see gui.general.TooltipSettingChangeListener#tooltipSettingChanged(boolean)
-     */
-    public void tooltipSettingChanged(boolean tooltipSettingValue) {
+    private void tooltipSettingChanged(boolean tooltipSettingValue) {
         tooltipCheckbox.setSelected(tooltipSettingValue);
     }
 
@@ -213,16 +220,23 @@ public abstract class SortingWindowSubstructure extends JFrame implements Toolti
         vertical.setValue(vertical.getMaximum());
     }
 
-
-    /* (non-Javadoc)
-     * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-     */
-    @Override
-    public void stateChanged(ChangeEvent e) {
+    private void activateTooltip(ChangeEvent e) {
         if (e.getSource().equals(tooltipCheckbox)
                 && tooltipCheckbox.isSelected() != LongerTooltipListener.isActive()) {
             LongerTooltipListener.setActive(tooltipCheckbox.isSelected());
         }
+    }
+
+    @Override
+    protected void setTextToWindow() {
+        super.setTextToWindow();
+        nextStep.setText(MESSAGES.getMessage("algorithmwindowsubstructure.nextStep"));
+        undoStep.setText(MESSAGES.getMessage("algorithmwindowsubstructure.undoStep"));
+        allSteps.setText(MESSAGES.getMessage("algorithmwindowsubstructure.allSteps"));
+        exportBtn.setText(MESSAGES.getMessage("algorithmwindowsubstructure.exportLatex"));
+        infoBtn.setText(MESSAGES.getMessage("algorithmwindowsubstructure.additionalInfo"));
+        reset.setText(MESSAGES.getMessage("algorithmwindowsubstructure.reset"));
+        tooltipCheckbox.setText(MESSAGES.getMessage("algorithmwindowsubstructure.activateTooltip"));
     }
 
 }

@@ -1,4 +1,26 @@
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package teachingalgorithms.ui.components;
+
+import teachingalgorithms.ui.windows.WindowSubstructure;
 
 import java.awt.GraphicsDevice;
 import java.awt.MouseInfo;
@@ -10,27 +32,12 @@ import javax.swing.UIManager;
 
 
 /**
- * The Class WindowFunctions.
- *
- * @author Moritz Floeter
- *         <p>
+ * <p>
  *         The Class WindowFunctions. This class provides certain functions for
  *         windows. (see description of the methods in this class for more
  *         details)
- *         <p>
- *         --------------------------------------------------------------------
- *         This program is free software: you can redistribute it and/or modify
- *         it under the terms of the GNU General Public License as published by
- *         the Free Software Foundation, either version 3 of the License, or (at
- *         your option) any later version.
- *         <p>
- *         This program is distributed in the hope that it will be useful, but
- *         WITHOUT ANY WARRANTY; without even the implied warranty of
- *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- *         General Public License for more details.
- *         <p>
- *         You should have received a copy of the GNU General Public License
- *         along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * </p>
+ * @author Moritz Floeter
  */
 public class GeneralGuiFunctions {
 
@@ -92,11 +99,15 @@ public class GeneralGuiFunctions {
         }
     }
 
+    public static void enableOSXMenu(WindowSubstructure window) {
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Teaching-Algorithms");
+    }
+
     public static void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            System.out.println("Could not set System LookAndFeel.");
             e.printStackTrace();
         }
     }

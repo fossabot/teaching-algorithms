@@ -1,3 +1,23 @@
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package teachingalgorithms.ui.windows.sorting;
 
 import java.awt.Desktop;
@@ -11,30 +31,18 @@ import javax.swing.JOptionPane;
 import teachingalgorithms.io.SaveFile;
 import teachingalgorithms.logic.sorting.SortingAlgorithm;
 import teachingalgorithms.ui.components.LaTeXPanel;
+import teachingalgorithms.ui.windows.AlgorithmWindowSubstructure;
 
 /**
- * @author Moritz Floeter
- *         <p>
+ * <p>
  *         The Class SelectionWindow. This class serves the graphical
  *         representation of the selectionsort algorithm in a gui frame. From
  *         here all important actions concerning the sorting algorithm can be
  *         performed and displayed.
- *         <p>
- *         --------------------------------------------------------------------
- *         This program is free software: you can redistribute it and/or modify
- *         it under the terms of the GNU General Public License as published by
- *         the Free Software Foundation, either version 3 of the License, or (at
- *         your option) any later version.
- *         <p>
- *         This program is distributed in the hope that it will be useful, but
- *         WITHOUT ANY WARRANTY; without even the implied warranty of
- *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- *         General Public License for more details.
- *         <p>
- *         You should have received a copy of the GNU General Public License
- *         along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * </p>
+ * @author Moritz Floeter
  */
-public class SortingWindow extends SortingWindowSubstructure implements ActionListener {
+public class SortingWindow extends AlgorithmWindowSubstructure implements ActionListener {
 
     /**
      * The Constant serialVersionUID.
@@ -137,7 +145,6 @@ public class SortingWindow extends SortingWindowSubstructure implements ActionLi
                 boolean stepDone = true;
                 for (int i = 0; i < algorithm.getStepLimit() && stepDone; i++) {
                     stepDone = algorithm.doStep();
-                    System.out.println(i);
                 }
             }
 

@@ -1,0 +1,19 @@
+graph {
+
+}
+
+node {
+    shape: circle;
+    fill-color: white;
+    stroke-mode: plain;
+    stroke-color: black;
+    size: 20px, 20px;
+}
+
+edge {
+    text-alignment: along;
+}
+
+sprite {
+
+}

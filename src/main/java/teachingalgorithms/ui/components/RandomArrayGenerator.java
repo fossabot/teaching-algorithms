@@ -1,13 +1,35 @@
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package teachingalgorithms.ui.components;
 
 import teachingalgorithms.logic.util.InputGeneration;
 import teachingalgorithms.ui.windows.AlgorithmSelection;
+import teachingalgorithms.ui.windows.WindowSubstructure;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,62 +39,56 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * @author Moritz Floeter
- *         <p>
- *         The Class RandomArrayGenerator.
- *         <p>
+ * <p>
  *         This class provides the gui for creating a randomized array.
- *         <p>
- *         --------------------------------------------------------------------
- *         This program is free software: you can redistribute it and/or modify
- *         it under the terms of the GNU General Public License as published by
- *         the Free Software Foundation, either version 3 of the License, or
- *         (at your option) any later version.
- *         <p>
- *         This program is distributed in the hope that it will be useful,
- *         but WITHOUT ANY WARRANTY; without even the implied warranty of
- *         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *         GNU General Public License for more details.
- *         <p>
- *         You should have received a copy of the GNU General Public License
- *         along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * </p>
+ * @author Moritz Floeter
  */
-public class RandomArrayGenerator extends JFrame implements ActionListener {
+public class RandomArrayGenerator extends WindowSubstructure{
 
     /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = -2004873389331204943L;
 
+    private JPanel parameters;
     /**
      * The number count.
      */
-    private IntegerField numberCount = new IntegerField(2, AlgorithmSelection.maxCount);
+    private IntegerField numberCount;
 
     /**
      * The max number value.
      */
-    private IntegerField maxNumberValue = new IntegerField(0, AlgorithmSelection.maxValue);
+    private IntegerField maxNumberValue;
 
     /**
      * The min number value.
      */
-    private IntegerField minNumberValue = new IntegerField(0, AlgorithmSelection.maxValue);
+    private IntegerField minNumberValue;
 
     /**
      * The generate btn.
      */
-    private JButton generateBtn = new JButton("<html>&nbsp; <br>Generieren<br> &nbsp;</html>");
+    private JButton generateBtn;
 
     /**
      * The cancel btn.
      */
-    private JButton cancelBtn = new JButton("<html> &nbsp; <br>Abbrechen<br> &nbsp;</html>");
+    private JButton cancelBtn;
 
     /**
      * The selection.
      */
     private AlgorithmSelection selection;
+
+    private JLabel infoLabel;
+
+    private JLabel elementCountLabel;
+
+    private JLabel minValueLabel;
+
+    private JLabel maxValueLabel;
 
     /**
      * Instantiates a new random array generator.
@@ -80,24 +96,35 @@ public class RandomArrayGenerator extends JFrame implements ActionListener {
      * @param selection the selection
      */
     public RandomArrayGenerator(AlgorithmSelection selection) {
-        super("Zahlenfolge generieren");
+        super();
 
         this.selection = selection;
 
+        infoLabel = new JLabel();
+        elementCountLabel = new JLabel();
+        minValueLabel = new JLabel();
+        maxValueLabel = new JLabel();
+        generateBtn = new JButton();
+        cancelBtn = new JButton();
+        numberCount = new IntegerField(2, AlgorithmSelection.maxCount);
+        maxNumberValue = new IntegerField(0, AlgorithmSelection.maxValue);
+        minNumberValue = new IntegerField(0, AlgorithmSelection.maxValue);
+
+
         JPanel mainpanel = new JPanel(new BorderLayout());
-        JPanel parameters = new JPanel();
+        parameters = new JPanel();
         JPanel buttons = new JPanel();
 
         parameters.setLayout(new GridLayout(0, 1));
-        mainpanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        parameters.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        buttons.setLayout(new FlowLayout());
+        buttons.setLayout(new GridLayout(1, 1));
         buttons.add(cancelBtn);
         buttons.add(generateBtn);
         mainpanel.add(buttons, BorderLayout.SOUTH);
 
-        generateBtn.addActionListener(this);
-        cancelBtn.addActionListener(this);
+        generateBtn.addActionListener(actionEvent -> generateAndClose(actionEvent));
+        cancelBtn.addActionListener(actionEvent -> generateAndClose(actionEvent));
         this.getContentPane().add(mainpanel);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
@@ -106,63 +133,60 @@ public class RandomArrayGenerator extends JFrame implements ActionListener {
         maxNumberValue.setText("99");
         numberCount.setText("10");
 
-        parameters.setBorder(BorderFactory.createTitledBorder("Auswahl"));
-        parameters.add(new JLabel("Hinweis: es sind nur Zahlen ≥ 0 erlaubt"));
-        parameters.add(
-                new JLabel("<html>Anzahl an Elementen<br>" + "<i> maximal " + AlgorithmSelection.maxCount + "</i></html>"));
+        parameters.add(infoLabel);
+        parameters.add(elementCountLabel);
         parameters.add(numberCount);
-        parameters.add(new JLabel("Minimaler Wert"));
+        parameters.add(minValueLabel);
         parameters.add(minNumberValue);
-        parameters
-                .add(new JLabel("<html>Maximaler Wert<br>" + "<i> maximal " + AlgorithmSelection.maxValue + "<i></html>"));
+        parameters.add(maxValueLabel);
         parameters.add(maxNumberValue);
         mainpanel.add(parameters, BorderLayout.CENTER);
 
-        this.pack();
-        this.setResizable(false);
-
+        setTextToWindow();
         /*
          * Sets location to the place where the calling selection window is and
          * disables + hides the selection window
          */
+        this.pack();
+        this.setResizable(false);
         this.setLocationRelativeTo(selection);
         selection.setVisible(false);
         selection.setEnabled(false);
         this.setVisible(true);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
+    public void generateAndClose(ActionEvent e) {
         boolean close = true;
 
         if (e.getSource().equals(generateBtn)) {
             numberCount.validateValue();
             minNumberValue.validateValue();
             maxNumberValue.validateValue();
-            int count = numberCount.getInt();
-            int min = minNumberValue.getInt();
-            int max = maxNumberValue.getInt();
+            Integer count = numberCount.getInt();
+            Integer min = minNumberValue.getInt();
+            Integer max = maxNumberValue.getInt();
 
-            /*
-             * If the input is valid, the String gets generated and set in the
-             * selection window from which this instance of the
-             * RandomArrayGenerator was called. Otherwise - if the input is not
-             * valid, an according message gets displayed and the
-             * RandomArrayGenerator does not close.
-             */
+            if(Objects.nonNull(count) && Objects.nonNull(min) && Objects.nonNull(max)) {
+                /*
+                 * If the input is valid, the String gets generated and set in the
+                 * selection window from which this instance of the
+                 * RandomArrayGenerator was called. Otherwise - if the input is not
+                 * valid, an according message gets displayed and the
+                 * RandomArrayGenerator does not close.
+                 */
 
-            if (!(max < min)) {
-                selection.setInput(InputGeneration.generate(max, min, count));
+                if (!(max < min)) {
+                    selection.setInput(InputGeneration.generate(max, min, count));
+                } else {
+                    JOptionPane.showMessageDialog(null, MESSAGES.getMessage("algorithmselection.randomarray.minOverMax"));
+                    close = false;
+                }
             } else {
-                JOptionPane.showMessageDialog(null,
-                        "<html>Das Minimum darf nicht &uuml;ber dem Maximum liegen.</html>");
                 close = false;
+                JOptionPane.showMessageDialog(null, MESSAGES.getMessage("algorithmselection.randomarray.notAllSet"));
             }
+
+
         }
         /*
          * when the RandomArrayGenerator closes, the selection-window from where
@@ -176,4 +200,18 @@ public class RandomArrayGenerator extends JFrame implements ActionListener {
 
     }
 
+    @Override
+    protected void setTextToWindow() {
+        super.setTextToWindow();
+
+        this.setTitle(MESSAGES.getMessage("algorithmselection.randomarray.titel"));
+        generateBtn.setText(MESSAGES.getMessage("algorithmselection.randomarray.generate"));
+        cancelBtn.setText(MESSAGES.getMessage("algorithmselection.randomarray.cancle"));
+        infoLabel.setText(MESSAGES.getMessage("algorithmselection.randomarray.infoLabel"));
+        String[] prepCount = {String.valueOf(AlgorithmSelection.maxCount)};
+        elementCountLabel.setText(MESSAGES.getPreparedMessage("algorithmselection.randomarray.elementCountLabel", prepCount));
+        minValueLabel.setText(MESSAGES.getMessage("algorithmselection.randomarray.minValueLabel"));
+        String[] prepVal = {String.valueOf(AlgorithmSelection.maxValue)};
+        maxValueLabel.setText(MESSAGES.getPreparedMessage("algorithmselection.randomarray.maxValueLabel", prepVal));
+    }
 }

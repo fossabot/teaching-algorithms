@@ -1,7 +1,28 @@
+/*
+ *
+ *     Copyright (C) 2015-2016  Moritz Flöter
+ *     Copyright (C) 2016  Jonathan Lechner
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package teachingalgorithms.ui.windows.sorting;
 
 import teachingalgorithms.io.SaveFile;
 import teachingalgorithms.logic.sorting.HeapSort;
+import teachingalgorithms.ui.windows.AlgorithmWindowSubstructure;
 
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -12,28 +33,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * @author Moritz Floeter
- *
  * The Class HeapWindow. A gui class for displaying heapsort and perfoming steps
  * with that algorithm.
- *
- * --------------------------------------------------------------------
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * @author Moritz Floeter
  */
 
-public class HeapWindow extends SortingWindowSubstructure implements ActionListener {
+public class HeapWindow extends AlgorithmWindowSubstructure implements ActionListener {
 
     private static final long serialVersionUID = -7777097415364226306L;
 
