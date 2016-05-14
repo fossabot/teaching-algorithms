@@ -5,12 +5,37 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+mainClassName = 'teachingalgorithms.TeachingAlgorithms'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources/teachingalgorithms/ui/components'
+        }
+    }
+}
 
 jar {
     baseName = 'teaching-algorithms'
     version = '1.1.0'
+
+    manifest {
+        attributes("Implementation-Title": baseName, "Implementation-Version": version)
+    }
+}
+
+shadowJar {
+    mergeServiceFiles()
 }
 
 sourceCompatibility = 1.8
@@ -44,15 +69,4 @@ eclipse {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
-}
-
-task runnableJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'TeachingAlgorithms',
-                'Implementation-Version': '1.1.0',
-                'Main-Class': 'teachingalgorithms.TeachingAlgorithms'
-    }
-    baseName = 'teaching-algorithms'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }

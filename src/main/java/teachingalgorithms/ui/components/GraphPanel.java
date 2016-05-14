@@ -34,6 +34,8 @@ import teachingalgorithms.logic.graph.util.Node;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.JarURLConnection;
 import java.util.*;
 import java.util.List;
 
@@ -127,9 +129,10 @@ public class GraphPanel extends JXPanel {
      */
     private String getGraphStyleSheet() {
         String style = "";
-        BufferedInputStream input = null;
+        InputStream input = null;
         try {
-            input = (BufferedInputStream) this.getClass().getResource("graph.css").getContent();
+            input = (InputStream) this.getClass().getResource("graph.css").getContent();
+
             byte[] symbols = new byte[1024];
 
             int count;
