@@ -20,7 +20,6 @@
 
 package teachingalgorithms.logic.graph.algorithm;
 
-import com.sun.istack.internal.Nullable;
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.protocol.step.Step;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
@@ -137,7 +136,7 @@ public class Kruskal implements GraphAlgorithm {
         }
     }
 
-    private Step getNewStepFor(AdjacencyMatrix matrix, @Nullable List<List<Node>> nodeList, Edge edge, @Nullable Object selected) {
+    private Step getNewStepFor(AdjacencyMatrix matrix, List<List<Node>> nodeList, Edge edge, Object selected) {
         Step toReturn = new Step(matrix);
         toReturn.addAdditionalInformation(NODE_LIST, nodeList);
         toReturn.addAdditionalInformation(CURRENT_EDGE, edge);
