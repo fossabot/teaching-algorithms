@@ -51,6 +51,7 @@ public class Node implements Cloneable {
         } else {
             throw new IllegalArgumentException(name + " does not match " + ALLOWED_NAME_PATTERN);
         }
+        this.visited = 0;
     }
 
     public String getName() {

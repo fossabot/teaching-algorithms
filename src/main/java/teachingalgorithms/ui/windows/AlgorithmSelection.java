@@ -23,15 +23,17 @@ package teachingalgorithms.ui.windows;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.*;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
-import teachingalgorithms.export.latex.LatexExporter;
-import teachingalgorithms.export.latex.graph.LatexKruskal;
+import teachingalgorithms.logic.graph.algorithm.BreadthFirstSearch;
+import teachingalgorithms.logic.graph.algorithm.DepthFirstSearch;
 import teachingalgorithms.logic.graph.algorithm.GraphAlgorithm;
 import teachingalgorithms.logic.graph.algorithm.Kruskal;
-import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
 import teachingalgorithms.logic.sorting.*;
 import teachingalgorithms.logic.util.InputGeneration;
@@ -87,7 +89,6 @@ public class AlgorithmSelection extends WindowSubstructure {
      */
     private String[] availableSortingAlgorithms = {"Bubblesort", "Selectionsort", "Radixsort", "Quicksort", "Heapsort (Minheap)", "Heapsort (Maxheap)"};
 
-    private String[] availableGraphAlgorithms = {"Kruskal"};
     /**
      * The algorithm selection.
      */
@@ -116,7 +117,8 @@ public class AlgorithmSelection extends WindowSubstructure {
         matrixEditPanel = new AdjacencyMatrixEditPanel();
         graphPanel.add(matrixEditPanel, BorderLayout.CENTER);
 
-        graphSelection = new JComboBox<>(availableGraphAlgorithms);
+        graphSelection = new JComboBox<>();
+
         graphPanel.add(graphSelection, BorderLayout.SOUTH);
 
         integerListField = new JXTextField();
@@ -209,6 +211,11 @@ public class AlgorithmSelection extends WindowSubstructure {
         randombtn.setText(MESSAGES.getMessage("algorithmselection.random"));
 
         matrixEditPanel.setTextToPanel(MESSAGES);
+
+        graphSelection.removeAllItems();
+        graphSelection.addItem(MESSAGES.getMessage(Kruskal.getName()));
+        graphSelection.addItem(MESSAGES.getMessage(BreadthFirstSearch.getName()));
+        graphSelection.addItem(MESSAGES.getMessage(DepthFirstSearch.getName()));
     }
 
     private void startSelectedAlgorithm() {
@@ -269,8 +276,20 @@ public class AlgorithmSelection extends WindowSubstructure {
 
     private void startGraphAlgorithm() {
         AdjacencyMatrix matrix = matrixEditPanel.getAdjacencyMatrix();
-        GraphAlgorithm algorithm = new Kruskal();
-        new GraphWindow(this, algorithm, matrix);
+        GraphAlgorithm algorithm = null;
+
+        Object selectedItem = graphSelection.getSelectedItem();
+        if (selectedItem.equals(MESSAGES.getMessage(Kruskal.getName()))) {
+            algorithm = new Kruskal();
+        } else if (selectedItem.equals(MESSAGES.getMessage(BreadthFirstSearch.getName()))) {
+            algorithm = new BreadthFirstSearch();
+        } else if (selectedItem.equals(MESSAGES.getMessage(DepthFirstSearch.getName()))) {
+            algorithm = new DepthFirstSearch();
+        }
+
+        if (Objects.nonNull(algorithm)) {
+            new GraphWindow(this, algorithm, matrix);
+        }
     }
 
     /**

@@ -18,18 +18,16 @@
  *
  */
 
-package teachingalgorithms.logic.graph.algorithm;
+package teachingalgorithms.export.latex.graph;
 
-import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
-import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
 import teachingalgorithms.ui.i18n.I18n;
 
-public interface GraphAlgorithm {
+public class LatexBreadthFirstSearch extends LatexDepthFirstSearch {
 
-    StepByStepProtocol applyAlgorithm(AdjacencyMatrix matrix);
-
-    static String getName() {
-        return "algorithm.graph";
+    @Override
+    protected String setTextToHeader(String laTex, I18n messages) {
+        laTex = laTex.replace("[0]", messages.getMessage("exporter.latex.nodeList"));
+        laTex = laTex.replace("[1]", messages.getMessage("exporter.latex.depth"));
+        return laTex;
     }
-
 }

@@ -85,13 +85,12 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
                         label.setText(node.getName());
                         component = label;
                     } else if (o instanceof Edge) {
-                        JXLabel label = new JXLabel();
-                        label.setBackground(Color.gray);
+                        JXTextField textField = new JXTextField();
                         Edge edge = (Edge) o;
                         if (Objects.nonNull(edge.getWeight())) {
-                            label.setText(edge.getWeight().toString());
+                            textField.setText(edge.getWeight().toString());
                         }
-                        component = label;
+                        component = textField;
                     }
                     return component;
                 };
@@ -179,6 +178,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
     private void addNodeUI(Node node, int index) {
         tableModel.insertRow(index, new Node[]{node});
         tableModel.addColumn(node.getName(), adjacencyMatrix.getEdges().get(index).toArray());
+        //TODO add values to row for bidirectional graphs
     }
 
     /**

@@ -76,14 +76,20 @@ public class LatexKruskal extends LatexExporter{
         for (Step step : protocol) {
             rows = rows.concat(stepAsRow(step));
         }
-        toReturn = toReturn.replace("[0]", messages.getMessage("exporter.latex.edge"));
-        toReturn = toReturn.replace("[1]", messages.getMessage("exporter.latex.weight"));
-        toReturn = toReturn.replace("[2]", messages.getMessage("exporter.latex.notes"));
-        toReturn = toReturn.replace("[3]", messages.getMessage("exporter.latex.selected"));
+
+        toReturn = setTextToHeader(toReturn, messages);
         toReturn = toReturn.replace("[4]", rows);
         toReturn = toReturn.replace("[5]", "$\\sum$ " + sum.toString());
 
         return toReturn;
+    }
+
+    private String setTextToHeader(String laTex, I18n messages) {
+        laTex = laTex.replace("[0]", messages.getMessage("exporter.latex.edge"));
+        laTex = laTex.replace("[1]", messages.getMessage("exporter.latex.weight"));
+        laTex = laTex.replace("[2]", messages.getMessage("exporter.latex.notes"));
+        laTex = laTex.replace("[3]", messages.getMessage("exporter.latex.selected"));
+        return laTex;
     }
 
     private String stepAsRow(Step step) {

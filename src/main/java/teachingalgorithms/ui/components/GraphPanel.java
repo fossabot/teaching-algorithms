@@ -20,6 +20,7 @@
 
 package teachingalgorithms.ui.components;
 
+import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.layout.Layout;
@@ -93,13 +94,14 @@ public class GraphPanel extends JXPanel {
             if (!(nodeOptional.isPresent())) {
                 graph.removeNode(node);
             } else {
+                setValuesToNode(nodeOptional.get(), node);
                 newNodes.remove(nodeOptional.get());
             }
         }
 
         for (Node reallyNewNode : newNodes) {
             org.graphstream.graph.Node addedNode = graph.addNode(reallyNewNode.getName());
-            addedNode.addAttribute("ui.label", reallyNewNode.getName());
+            setValuesToNode(reallyNewNode, addedNode);
         }
 
         for (List<Edge> adjaEdgeList : matrix.getEdges()) {
@@ -152,6 +154,11 @@ public class GraphPanel extends JXPanel {
         return style;
     }
 
+    private void setValuesToNode(Node adjaNode, org.graphstream.graph.Node node) {
+        node.addAttribute("ui.label", adjaNode.getName());
+        calculateVisitedColor(node, adjaNode.getVisited());
+    }
+
     /**
      * set attributes to edge
      * @param adjaEdge new values
@@ -160,12 +167,16 @@ public class GraphPanel extends JXPanel {
     private void setValuesToEdge(Edge adjaEdge, org.graphstream.graph.Edge edge) {
         edge.setAttribute("weight", adjaEdge.getWeight());
         edge.setAttribute("ui.label", adjaEdge.getWeight());
-        if (adjaEdge.getVisited() > 0) {
-            int red = 255 * (adjaEdge.getVisited() / 100);
-            int green = 255 - (255 * (adjaEdge.getVisited() / 100));
-            edge.setAttribute("ui.style", "fill-color: rgb(" + red + ", " + green + ", 0);");
+        calculateVisitedColor(edge, adjaEdge.getVisited());
+    }
+
+    private void calculateVisitedColor(Element element, Integer visitedCount) {
+        if (visitedCount > 0) {
+            int red = 255 * (visitedCount / 100);
+            int green = 255 - (255 * (visitedCount / 100));
+            element.setAttribute("ui.style", "fill-color: rgb(" + red + ", " + green + ", 0);");
         } else {
-            edge.setAttribute("ui.style", "fill-color: transparent;");
+            element.removeAttribute("ui.style");
         }
     }
 

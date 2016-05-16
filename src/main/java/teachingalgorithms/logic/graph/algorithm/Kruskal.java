@@ -72,6 +72,10 @@ public class Kruskal implements GraphAlgorithm {
         return stepByStepProtocol;
     }
 
+    public static String getName() {
+        return GraphAlgorithm.getName() + ".kruskal";
+    }
+
     /**
      * runs kruskal and generates stepByStep
      * @param remainingSortedEdges sorted edges.
