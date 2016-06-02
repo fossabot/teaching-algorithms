@@ -20,7 +20,6 @@
 
 package teachingalgorithms.logic.graph.algorithm;
 
-import com.rits.cloning.Cloner;
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.protocol.step.Step;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
@@ -32,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * stepByStep commented depth first search.
  * @author Jonathan Lechner
  */
 public class DepthFirstSearch implements GraphAlgorithm {
@@ -52,11 +51,17 @@ public class DepthFirstSearch implements GraphAlgorithm {
 
         List<Node> nodeHeap = new ArrayList<>();
         nodeHeap.add(adjacencyMatrix.getNodes().get(0));
+        nodeHeap.get(0).setVisited(1);
         depthFirstSearch(nodeHeap);
 
         return this.stepByStepProtocol;
     }
 
+    /**
+     * this method runs the depth first search for both directed and non-directed graphs
+     * and sets the step by step.
+     * @param nodeHeap list of visited nodes.
+     */
     private void depthFirstSearch(List<Node> nodeHeap) {
         int depth = 0;
         Integer y = 0;
@@ -67,8 +72,11 @@ public class DepthFirstSearch implements GraphAlgorithm {
             this.stepByStepProtocol.add(newStep);
 
             for (int x = 0; x < adjacencyMatrix.getNodes().size(); x++) {
+                boolean directed = adjacencyMatrix.getDirected();
                 Edge currentEdge = adjacencyMatrix.getEdges().get(x).get(y);
-                if (Objects.nonNull(currentEdge.getWeight())) {
+                Edge wrongDirectedEdge = adjacencyMatrix.getEdges().get(y).get(x);
+                if (Objects.nonNull(currentEdge.getWeight())
+                        || (directed || Objects.nonNull(wrongDirectedEdge.getWeight()))) {
                     Node from = currentEdge.getFrom();
                     if (!nodeHeap.contains(from) && from.getVisited() == 0) {
                         nodeHeap.add(from);

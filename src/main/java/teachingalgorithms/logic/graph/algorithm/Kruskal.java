@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 
 /**
  * stepByStep commented kruskal.
+ * @author Jonathan Lechner
  */
 public class Kruskal implements GraphAlgorithm {
 
