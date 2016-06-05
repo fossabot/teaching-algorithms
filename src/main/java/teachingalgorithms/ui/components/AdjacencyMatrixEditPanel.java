@@ -24,15 +24,13 @@ import org.jdesktop.swingx.*;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
 import teachingalgorithms.logic.graph.util.Edge;
 import teachingalgorithms.logic.graph.util.Node;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
 
@@ -215,7 +213,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
      * like set text to window.
      * @param message
      */
-    public void setTextToPanel(I18n message) {
+    public void setTextToPanel(Messages message) {
         addNodeLabel.setText(message.getMessage("adjacencymatrixeditpanel.addNodeLabel"));
         //directedLabel.setText(message.getMessage("adjacencymatrixeditpanel.directedLabel"));
         //directed.setText(message.getMessage("adjacencymatrixeditpanel.directedCheckbox"));

@@ -18,7 +18,7 @@
  *
  */
 
-package teachingalgorithms.ui.i18n;
+package teachingalgorithms.ui.internationalisation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,11 +31,11 @@ import java.util.ResourceBundle;
 
 /**
  * <p>
- *         The Class I18n supports internationalisation.
+ *         The Class Messages supports internationalisation.
  * </p>
  * @author Jonathan Lechner
  */
-public class I18n {
+public class Messages {
 
     /**
      * The ResourceBundle with text for language und country.
@@ -46,7 +46,7 @@ public class I18n {
      * The constructor with definition for language and country.
      * @param locale
      */
-    public I18n(Locale locale) {
+    public Messages(Locale locale) {
         messages = ResourceBundle.getBundle("Messages", locale, new EncodingControl());
     }
 

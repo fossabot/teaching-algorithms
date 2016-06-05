@@ -26,7 +26,7 @@ import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.protocol.step.Step;
 import teachingalgorithms.logic.graph.util.Edge;
 import teachingalgorithms.logic.graph.util.Node;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 import java.util.List;
 import java.util.Objects;
@@ -68,7 +68,7 @@ public class LatexKruskal extends LatexExporter{
     private Integer sum;
 
     @Override
-    public String toLatex(StepByStepProtocol protocol, I18n messages) {
+    public String toLatex(StepByStepProtocol protocol, Messages messages) {
         String toReturn = laTex;
 
         sum = 0;
@@ -84,7 +84,7 @@ public class LatexKruskal extends LatexExporter{
         return toReturn;
     }
 
-    private String setTextToHeader(String laTex, I18n messages) {
+    private String setTextToHeader(String laTex, Messages messages) {
         laTex = laTex.replace("[0]", messages.getMessage("exporter.latex.edge"));
         laTex = laTex.replace("[1]", messages.getMessage("exporter.latex.weight"));
         laTex = laTex.replace("[2]", messages.getMessage("exporter.latex.notes"));

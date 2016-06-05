@@ -35,6 +35,7 @@ import teachingalgorithms.logic.graph.algorithm.DepthFirstSearch;
 import teachingalgorithms.logic.graph.algorithm.GraphAlgorithm;
 import teachingalgorithms.logic.graph.algorithm.Kruskal;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
+import teachingalgorithms.logic.graph.util.Validator;
 import teachingalgorithms.logic.sorting.*;
 import teachingalgorithms.logic.util.InputGeneration;
 import teachingalgorithms.ui.components.AdjacencyMatrixEditPanel;
@@ -277,14 +278,23 @@ public class AlgorithmSelection extends WindowSubstructure {
     private void startGraphAlgorithm() {
         AdjacencyMatrix matrix = matrixEditPanel.getAdjacencyMatrix();
         GraphAlgorithm algorithm = null;
+        Validator validator = new Validator(matrix);
 
-        Object selectedItem = graphSelection.getSelectedItem();
-        if (selectedItem.equals(MESSAGES.getMessage(Kruskal.getName()))) {
-            algorithm = new Kruskal();
-        } else if (selectedItem.equals(MESSAGES.getMessage(BreadthFirstSearch.getName()))) {
-            algorithm = new BreadthFirstSearch();
-        } else if (selectedItem.equals(MESSAGES.getMessage(DepthFirstSearch.getName()))) {
-            algorithm = new DepthFirstSearch();
+        if (!validator.isEmpty()) {
+            Object selectedItem = graphSelection.getSelectedItem();
+            if (selectedItem.equals(MESSAGES.getMessage(Kruskal.getName()))) {
+                algorithm = new Kruskal();
+            } else if (selectedItem.equals(MESSAGES.getMessage(BreadthFirstSearch.getName()))) {
+                algorithm = new BreadthFirstSearch();
+            } else if (selectedItem.equals(MESSAGES.getMessage(DepthFirstSearch.getName()))) {
+                algorithm = new DepthFirstSearch();
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    MESSAGES.getMessage("algorithmselection.error.nonodes"),
+                    MESSAGES.getMessage("algorithmselection.error"),
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         if (Objects.nonNull(algorithm)) {

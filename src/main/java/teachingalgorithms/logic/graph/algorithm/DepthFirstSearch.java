@@ -69,6 +69,7 @@ public class DepthFirstSearch implements GraphAlgorithm {
         while (nodeHeap.size() > 0){
             newStep = new Step(this.adjacencyMatrix.clone());
             newStep.addAdditionalInformation(NODE_HEAP, new ArrayList<>(nodeHeap));
+            newStep.addAdditionalInformation(DEPTH, depth + 1);
             this.stepByStepProtocol.add(newStep);
 
             for (int x = 0; x < adjacencyMatrix.getNodes().size(); x++) {
@@ -88,7 +89,7 @@ public class DepthFirstSearch implements GraphAlgorithm {
 
                         newStep = new Step(this.adjacencyMatrix.clone());
                         newStep.addAdditionalInformation(NODE_HEAP, new ArrayList<>(nodeHeap));
-                        newStep.addAdditionalInformation(DEPTH, depth);
+                        newStep.addAdditionalInformation(DEPTH, depth + 1);
                         this.stepByStepProtocol.add(newStep);
                     }
                 }

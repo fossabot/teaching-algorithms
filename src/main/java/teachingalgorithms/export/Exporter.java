@@ -21,7 +21,7 @@
 package teachingalgorithms.export;
 
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 /**
  * interface for exporting classes.
@@ -32,8 +32,8 @@ public interface Exporter {
     /**
      * constructs exportable String.
      * @param protocol stepByStep of algorithm
-     * @param messages I18n selected.
+     * @param messages Messages selected.
      * @return exportable String
      */
-    String export(StepByStepProtocol protocol, I18n messages);
+    String export(StepByStepProtocol protocol, Messages messages);
 }

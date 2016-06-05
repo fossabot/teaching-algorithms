@@ -18,7 +18,7 @@
  *
  */
 
-package teachingalgorithms.ui.i18n;
+package teachingalgorithms.ui.internationalisation;
 
 /**
  * @author Jonathan Lechner

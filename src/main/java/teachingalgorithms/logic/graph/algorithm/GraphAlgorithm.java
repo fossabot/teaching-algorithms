@@ -22,7 +22,6 @@ package teachingalgorithms.logic.graph.algorithm;
 
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
-import teachingalgorithms.ui.i18n.I18n;
 
 public interface GraphAlgorithm {
 

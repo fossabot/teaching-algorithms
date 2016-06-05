@@ -18,16 +18,21 @@
  *
  */
 
-package teachingalgorithms.export.latex.graph;
+package teachingalgorithms.logic.graph.util;
 
-import teachingalgorithms.ui.internationalisation.Messages;
+/**
+ * Class for checking Graph on characteristics
+ * @author Jonathan Lechner
+ */
+public class Validator {
 
-public class LatexBreadthFirstSearch extends LatexDepthFirstSearch {
+    private AdjacencyMatrix matrix;
 
-    @Override
-    protected String setTextToHeader(String laTex, Messages messages) {
-        laTex = laTex.replace("[0]", messages.getMessage("exporter.latex.nodeList"));
-        laTex = laTex.replace("[1]", messages.getMessage("exporter.latex.depth"));
-        return laTex;
+    public Validator(AdjacencyMatrix matrix) {
+        this.matrix = matrix;
+    }
+
+    public boolean isEmpty() {
+        return matrix.getNodes().size() == 0;
     }
 }

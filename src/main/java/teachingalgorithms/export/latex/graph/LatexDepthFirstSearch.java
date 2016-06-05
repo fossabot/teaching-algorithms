@@ -25,7 +25,7 @@ import teachingalgorithms.logic.graph.algorithm.DepthFirstSearch;
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.protocol.step.Step;
 import teachingalgorithms.logic.graph.util.Node;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +56,7 @@ public class LatexDepthFirstSearch extends LatexExporter {
             "\\hline";
 
     @Override
-    public String toLatex(StepByStepProtocol protocol, I18n messages) {
+    public String toLatex(StepByStepProtocol protocol, Messages messages) {
         String toReturn = laTex;
 
         String rows = "";
@@ -70,7 +70,7 @@ public class LatexDepthFirstSearch extends LatexExporter {
         return toReturn;
     }
 
-    protected String setTextToHeader(String laTex, I18n messages) {
+    protected String setTextToHeader(String laTex, Messages messages) {
         laTex = laTex.replace("[0]", messages.getMessage("exporter.latex.nodeList"));
         laTex = laTex.replace("[1]", messages.getMessage("exporter.latex.nodeCount"));
         return laTex;
