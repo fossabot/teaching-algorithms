@@ -21,8 +21,12 @@
 package teachingalgorithms.ui.windows.graph;
 
 import teachingalgorithms.export.latex.LatexExporter;
+import teachingalgorithms.export.latex.graph.LatexBreadthFirstSearch;
+import teachingalgorithms.export.latex.graph.LatexDepthFirstSearch;
 import teachingalgorithms.export.latex.graph.LatexKruskal;
 import teachingalgorithms.io.SaveFile;
+import teachingalgorithms.logic.graph.algorithm.BreadthFirstSearch;
+import teachingalgorithms.logic.graph.algorithm.DepthFirstSearch;
 import teachingalgorithms.logic.graph.algorithm.GraphAlgorithm;
 import teachingalgorithms.logic.graph.algorithm.Kruskal;
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
@@ -60,14 +64,21 @@ public class GraphWindow extends AlgorithmWindowSubstructure {
      */
     public GraphWindow(JFrame parent, GraphAlgorithm graphAlgorithm, AdjacencyMatrix matrix) {
         super(parent);
-        //this.setTitle(algorithm.getClass().getName());
         this.matrix = matrix;
         this.algorithm = graphAlgorithm;
         this.protocol = graphAlgorithm.applyAlgorithm(matrix);
 
         if (algorithm instanceof Kruskal) {
             exporter = new LatexKruskal();
+        } else if (algorithm instanceof DepthFirstSearch) {
+            exporter = new LatexDepthFirstSearch();
+        } else if (algorithm instanceof BreadthFirstSearch) {
+            exporter = new LatexBreadthFirstSearch();
         }
+        //TODO add graphAlgorithm Exporter
+
+        setTitleToWindow();
+
         nextStep.addActionListener(actionEvent -> showNextStep());
         undoStep.addActionListener(actionEvent -> hideLastStep());
         allSteps.addActionListener(actionEvent -> showAllSteps());
@@ -160,12 +171,30 @@ public class GraphWindow extends AlgorithmWindowSubstructure {
     protected void setTextToWindow() {
         super.setTextToWindow();
 
-        if (Objects.nonNull(exporter) && Objects.nonNull(exporter) && Objects.nonNull(protocolListPnl)) {
+        setTitleToWindow();
+
+        if (Objects.nonNull(exporter) && Objects.nonNull(protocolListPnl)) {
             this.protocolListPnl.removeAll();
             this.protocolListPnl.add(new LaTeXPanel(exporter.toLatex(protocol.subList(0, stepCount), MESSAGES), graphPanel));
 
             this.validate();
             this.repaint();
+        }
+    }
+
+    private void setTitleToWindow() {
+        String algorithmName = null;
+        if (algorithm instanceof Kruskal) {
+            algorithmName = Kruskal.getName();
+        } else if (algorithm instanceof BreadthFirstSearch) {
+            algorithmName = BreadthFirstSearch.getName();
+        } else if (algorithm instanceof DepthFirstSearch) {
+            algorithmName = DepthFirstSearch.getName();
+        }
+        //TODO add graphAlgorithm
+
+        if (Objects.nonNull(algorithmName)) {
+            this.setTitle(MESSAGES.getMessage(algorithmName));
         }
     }
 }

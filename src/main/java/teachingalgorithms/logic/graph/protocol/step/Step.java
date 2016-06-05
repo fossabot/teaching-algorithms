@@ -21,7 +21,7 @@
 package teachingalgorithms.logic.graph.protocol.step;
 
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +50,7 @@ public class Step {
         descriptionKeysAndReplaceValues.put(key, replaceValues);
     }
 
-    public String getDescriptionText(I18n message) {
+    public String getDescriptionText(Messages message) {
         String toReturn = "";
         descriptionKeysAndReplaceValues.entrySet().forEach(entry -> {
             toReturn.concat(message.getPreparedMessage(entry.getKey(), (String[]) entry.getValue().toArray()));

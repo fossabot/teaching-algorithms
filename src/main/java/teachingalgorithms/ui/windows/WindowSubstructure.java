@@ -21,8 +21,8 @@
 package teachingalgorithms.ui.windows;
 
 import teachingalgorithms.ui.components.GeneralGuiFunctions;
-import teachingalgorithms.ui.i18n.AvailableLanguages;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.AvailableLanguages;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 import javax.swing.*;
 import java.util.Locale;
@@ -37,7 +37,7 @@ public abstract class WindowSubstructure extends JFrame {
     /**
      * Internationalisation
      */
-    public static I18n MESSAGES = new I18n(Locale.getDefault());
+    public static Messages MESSAGES = new Messages(Locale.getDefault());
 
     protected JMenuBar menuBar;
 
@@ -106,9 +106,9 @@ public abstract class WindowSubstructure extends JFrame {
      */
     private void changeLanguage(AvailableLanguages availableLanguages) {
         if (availableLanguages.equals(AvailableLanguages.DE)) {
-            MESSAGES = new I18n(Locale.GERMANY);
+            MESSAGES = new Messages(Locale.GERMANY);
         } else {
-            MESSAGES = new I18n(Locale.US);
+            MESSAGES = new Messages(Locale.US);
         }
         this.setTextToWindow();
     }

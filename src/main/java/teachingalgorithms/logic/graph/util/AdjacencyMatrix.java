@@ -30,7 +30,7 @@ import java.util.List;
  * represents graph.
  * @author Jonathan Lechner
  */
-public class AdjacencyMatrix implements Serializable {
+public class AdjacencyMatrix implements Cloneable {
 
     private Boolean directed;
 

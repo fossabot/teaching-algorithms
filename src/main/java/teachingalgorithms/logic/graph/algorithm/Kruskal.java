@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 
 /**
  * stepByStep commented kruskal.
+ * @author Jonathan Lechner
  */
 public class Kruskal implements GraphAlgorithm {
 
@@ -70,6 +71,10 @@ public class Kruskal implements GraphAlgorithm {
 
         kruskal(sortedEdges, visitedNodes);
         return stepByStepProtocol;
+    }
+
+    public static String getName() {
+        return GraphAlgorithm.getName() + ".kruskal";
     }
 
     /**

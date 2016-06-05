@@ -18,22 +18,21 @@
  *
  */
 
-package teachingalgorithms.export;
-
-import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
-import teachingalgorithms.ui.internationalisation.Messages;
+package teachingalgorithms.logic.graph.util;
 
 /**
- * interface for exporting classes.
+ * Class for checking Graph on characteristics
  * @author Jonathan Lechner
  */
-public interface Exporter {
+public class Validator {
 
-    /**
-     * constructs exportable String.
-     * @param protocol stepByStep of algorithm
-     * @param messages Messages selected.
-     * @return exportable String
-     */
-    String export(StepByStepProtocol protocol, Messages messages);
+    private AdjacencyMatrix matrix;
+
+    public Validator(AdjacencyMatrix matrix) {
+        this.matrix = matrix;
+    }
+
+    public boolean isEmpty() {
+        return matrix.getNodes().size() == 0;
+    }
 }

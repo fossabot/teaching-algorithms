@@ -18,11 +18,16 @@
  *
  */
 
-package teachingalgorithms.ui.i18n;
+package teachingalgorithms.export.latex.graph;
 
-/**
- * @author Jonathan Lechner
- */
-public enum AvailableLanguages {
-    DE, US
+import teachingalgorithms.ui.internationalisation.Messages;
+
+public class LatexBreadthFirstSearch extends LatexDepthFirstSearch {
+
+    @Override
+    protected String setTextToHeader(String laTex, Messages messages) {
+        laTex = laTex.replace("[0]", messages.getMessage("exporter.latex.nodeList"));
+        laTex = laTex.replace("[1]", messages.getMessage("exporter.latex.depth"));
+        return laTex;
+    }
 }

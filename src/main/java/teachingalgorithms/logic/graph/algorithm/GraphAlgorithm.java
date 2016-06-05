@@ -27,4 +27,8 @@ public interface GraphAlgorithm {
 
     StepByStepProtocol applyAlgorithm(AdjacencyMatrix matrix);
 
+    static String getName() {
+        return "algorithm.graph";
+    }
+
 }

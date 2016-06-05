@@ -18,22 +18,11 @@
  *
  */
 
-package teachingalgorithms.export;
-
-import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
-import teachingalgorithms.ui.internationalisation.Messages;
+package teachingalgorithms.ui.internationalisation;
 
 /**
- * interface for exporting classes.
  * @author Jonathan Lechner
  */
-public interface Exporter {
-
-    /**
-     * constructs exportable String.
-     * @param protocol stepByStep of algorithm
-     * @param messages Messages selected.
-     * @return exportable String
-     */
-    String export(StepByStepProtocol protocol, Messages messages);
+public enum AvailableLanguages {
+    DE, US
 }

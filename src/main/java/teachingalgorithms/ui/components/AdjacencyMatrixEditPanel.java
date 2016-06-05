@@ -24,13 +24,13 @@ import org.jdesktop.swingx.*;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
 import teachingalgorithms.logic.graph.util.Edge;
 import teachingalgorithms.logic.graph.util.Node;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.*;
 import java.util.List;
 
@@ -68,7 +68,18 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
         //directedLabel = new JXLabel();
         //directed = new JCheckBox();
 
-        nodeField.addKeyListener(new NodeListener());
+        nodeField.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                updateNodes();
+            }
+        });
         //directed.addActionListener(actionEvent -> updateDirected());
 
         graphPanel = new GraphPanel("graph");
@@ -85,13 +96,12 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
                         label.setText(node.getName());
                         component = label;
                     } else if (o instanceof Edge) {
-                        JXLabel label = new JXLabel();
-                        label.setBackground(Color.gray);
+                        JXTextField textField = new JXTextField();
                         Edge edge = (Edge) o;
                         if (Objects.nonNull(edge.getWeight())) {
-                            label.setText(edge.getWeight().toString());
+                            textField.setText(edge.getWeight().toString());
                         }
-                        component = label;
+                        component = textField;
                     }
                     return component;
                 };
@@ -179,6 +189,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
     private void addNodeUI(Node node, int index) {
         tableModel.insertRow(index, new Node[]{node});
         tableModel.addColumn(node.getName(), adjacencyMatrix.getEdges().get(index).toArray());
+        //TODO add values to row for bidirectional graphs
     }
 
     /**
@@ -202,7 +213,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
      * like set text to window.
      * @param message
      */
-    public void setTextToPanel(I18n message) {
+    public void setTextToPanel(Messages message) {
         addNodeLabel.setText(message.getMessage("adjacencymatrixeditpanel.addNodeLabel"));
         //directedLabel.setText(message.getMessage("adjacencymatrixeditpanel.directedLabel"));
         //directed.setText(message.getMessage("adjacencymatrixeditpanel.directedCheckbox"));
@@ -210,37 +221,6 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
 
     public AdjacencyMatrix getAdjacencyMatrix() {
         return adjacencyMatrix;
-    }
-
-    private class NodeListener implements KeyListener {
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
-         */
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-         */
-        public void keyPressed(KeyEvent e) {
-
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
-         */
-        public void keyReleased(KeyEvent e) {
-            updateNodes();
-        }
-
     }
 
     private class DeleteColumnTableModel extends DefaultTableModel {
@@ -261,23 +241,31 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
 
     class WeightCellEditor extends AbstractCellEditor implements TableCellEditor {
 
-        JComponent component;
+        Component component;
 
         Object object;
 
         @Override
         public Component getTableCellEditorComponent(JTable jtable, Object o, boolean isSelected, int row, int column) {
             object = o;
-            Component component = new JXLabel();
+            component = new JXLabel();
             if (object instanceof Edge) {
                 IntegerField field = new IntegerField(0, Integer.MAX_VALUE);
                 Edge edge = (Edge) o;
                 if (Objects.nonNull(edge.getWeight())) {
                     field.setText(edge.getWeight().toString());
                 }
-                field.addActionListener(actionEvent -> {
-                    edge.setWeight(field.getInt());
-                    graphPanel.updateMatrix(adjacencyMatrix);
+                field.addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent focusEvent) {
+
+                    }
+
+                    @Override
+                    public void focusLost(FocusEvent focusEvent) {
+                        edge.setWeight(field.getInt());
+                        graphPanel.updateMatrix(adjacencyMatrix);
+                    }
                 });
                 component = field;
             }

@@ -22,7 +22,7 @@ package teachingalgorithms.export.latex;
 
 import teachingalgorithms.export.Exporter;
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
-import teachingalgorithms.ui.i18n.I18n;
+import teachingalgorithms.ui.internationalisation.Messages;
 
 /**
  * base structure for Latex documents.
@@ -43,15 +43,15 @@ public class LatexExporter implements Exporter {
     /**
      * constructs latex element.
      * @param protocol stepByStep of algorithm
-     * @param messages I18n selected
+     * @param messages Messages selected
      * @return latex element
      */
-    public String toLatex(StepByStepProtocol protocol, I18n messages) {
+    public String toLatex(StepByStepProtocol protocol, Messages messages) {
         return "";
     }
 
     @Override
-    public String export(StepByStepProtocol protocol, I18n messages) {
+    public String export(StepByStepProtocol protocol, Messages messages) {
         return document.replace("[protocol]", toLatex(protocol, messages));
     }
 }
