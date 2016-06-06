@@ -34,6 +34,7 @@ import javax.swing.event.ChangeEvent;
 
 import teachingalgorithms.ui.components.DragScrollListener;
 import teachingalgorithms.ui.components.LongerTooltipListener;
+import teachingalgorithms.ui.components.TooltipActivationCheckbox;
 
 /**
  * <p>
@@ -109,7 +110,7 @@ public abstract class AlgorithmWindowSubstructure extends WindowSubstructure {
         exportBtn = new JButton();
         infoBtn = new JButton();
         reset = new JButton();
-        tooltipCheckbox = new JCheckBox("", LongerTooltipListener.isActive());;
+        tooltipCheckbox = new TooltipActivationCheckbox();
 
         JPanel mainpanel = new JPanel();
         this.getContentPane().add(mainpanel);
@@ -117,8 +118,6 @@ public abstract class AlgorithmWindowSubstructure extends WindowSubstructure {
 
         mainpanel.add(menuBar, BorderLayout.NORTH);
 
-        LongerTooltipListener.addListener(e -> tooltipSettingChanged(tooltipCheckbox.isSelected()));
-        tooltipCheckbox.addChangeListener(changeEvent -> activateTooltip(changeEvent));
 
         // Creating and inserting layouts for the right area of the window
         JPanel right = new JPanel();
@@ -220,12 +219,7 @@ public abstract class AlgorithmWindowSubstructure extends WindowSubstructure {
         vertical.setValue(vertical.getMaximum());
     }
 
-    private void activateTooltip(ChangeEvent e) {
-        if (e.getSource().equals(tooltipCheckbox)
-                && tooltipCheckbox.isSelected() != LongerTooltipListener.isActive()) {
-            LongerTooltipListener.setActive(tooltipCheckbox.isSelected());
-        }
-    }
+
 
     @Override
     protected void setTextToWindow() {

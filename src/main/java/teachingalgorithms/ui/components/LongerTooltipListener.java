@@ -51,23 +51,6 @@ public class LongerTooltipListener implements MouseListener {
         listeners.add(toAdd);
     }
 
-    private static void fireTooltipSettingChangeEvent() {
-
-        for (TooltipSettingChangeListener listen : listeners)
-            listen.tooltipSettingChanged(enabled);
-    }
-
-    public static boolean isActive() {
-        return enabled;
-    }
-
-    public static void setActive(boolean active) {
-
-        enabled = active;
-        ToolTipManager.sharedInstance().setEnabled(enabled);
-        fireTooltipSettingChangeEvent();
-
-    }
 
     /*
      * (non-Javadoc)
