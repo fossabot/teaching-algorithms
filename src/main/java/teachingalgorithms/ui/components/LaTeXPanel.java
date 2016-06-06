@@ -43,6 +43,8 @@ public class LaTeXPanel extends JXPanel {
 
     private static final float FONT_SIZE_TEX = 21;
 
+    private static final float SMALLMATRIX_FONT_SIZE_MULTIPLIER = 1.43f;
+
     private Component toolTipComponent;
 
     /**
@@ -99,7 +101,11 @@ public class LaTeXPanel extends JXPanel {
         try {
             // create a formula
             TeXFormula formula = new TeXFormula(this.expression);
-            TeXIcon ticon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, FONT_SIZE_TEX, TeXConstants.UNIT_PIXEL, 80,
+            float multiplier = 1;
+            if (expression.contains("\\begin{smallmatrix}")){
+                multiplier = SMALLMATRIX_FONT_SIZE_MULTIPLIER;
+            }
+            TeXIcon ticon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, FONT_SIZE_TEX * multiplier, TeXConstants.UNIT_PIXEL, 80,
                     TeXConstants.ALIGN_LEFT);
             this.add(new JXLabel(ticon));
 

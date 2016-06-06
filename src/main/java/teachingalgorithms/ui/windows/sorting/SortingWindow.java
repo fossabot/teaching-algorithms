@@ -49,10 +49,6 @@ public class SortingWindow extends AlgorithmWindowSubstructure implements Action
      */
     private static final long serialVersionUID = 7326001445728823589L;
 
-    private static final float SMALLMATRIX_FONT_SIZE = 30;
-    private static final float NORMAL_FONT_SIZE = 21;
-
-    private boolean smallmatrix;
 
     /**
      * The ssort.
@@ -79,18 +75,10 @@ public class SortingWindow extends AlgorithmWindowSubstructure implements Action
             allSteps.setText("<html> &nbsp; <br>Gehe " + algorithm.getStepLimit() + " Schritte <br> &nbsp; <html>");
         }
 
-        this.smallmatrix = (this.algorithm.step2LaTeX(0).contains("\\begin{smallmatrix}"));
 
         this.addLastStepToProtocol();
     }
 
-    private float getFontSize() {
-        float fontSize = NORMAL_FONT_SIZE;
-        if (smallmatrix) {
-            fontSize = SMALLMATRIX_FONT_SIZE;
-        }
-        return fontSize;
-    }
 
     private void addLastStepToProtocol() {
 
