@@ -41,15 +41,9 @@ import javax.swing.*;
  */
 public class LongerTooltipListener implements MouseListener {
 
-    private static List<TooltipSettingChangeListener> listeners = new ArrayList<TooltipSettingChangeListener>();
-
     private static boolean enabled = true;
 
     private Popup popup;
-
-    public static void addListener(TooltipSettingChangeListener toAdd) {
-        listeners.add(toAdd);
-    }
 
 
     /*
