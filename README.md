@@ -17,3 +17,4 @@ This project started as a university project to help lecturers demonstrate the a
   -   `kruskal`
   -   `depth first search`
   -   `breadth first search`
+  -   `dijkstra`
