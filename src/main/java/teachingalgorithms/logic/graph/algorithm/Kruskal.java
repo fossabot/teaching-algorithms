@@ -44,6 +44,8 @@ public class Kruskal implements GraphAlgorithm {
 
     public static final String IS_SELECTED = "is_selected";
 
+    public static final String SORTED_EDGES = "sorted_edges";
+
     private StepByStepProtocol stepByStepProtocol;
 
     private AdjacencyMatrix adjacencyMatrix;
@@ -69,6 +71,12 @@ public class Kruskal implements GraphAlgorithm {
 
         stepByStepProtocol = new StepByStepProtocol();
 
+        Step sortedEdgesStep = new Step(adjacencyMatrix.clone());
+        List<Edge> clonedEdgeList = new ArrayList<>();
+        clonedEdgeList.addAll(sortedEdges);
+        sortedEdgesStep.addAdditionalInformation(SORTED_EDGES, clonedEdgeList);
+        stepByStepProtocol.add(sortedEdgesStep);
+
         kruskal(sortedEdges, visitedNodes);
         return stepByStepProtocol;
     }
@@ -85,6 +93,7 @@ public class Kruskal implements GraphAlgorithm {
     private void kruskal(List<Edge> remainingSortedEdges, List<List<Node>> visitedNodes) {
         while (visitedNodes.size() > 1 && remainingSortedEdges.size() > 0) {
             Edge edge = remainingSortedEdges.get(0);
+            edge.setVisited(100);
             remainingSortedEdges.remove(0);
 
             Node from = edge.getFrom();
@@ -100,7 +109,7 @@ public class Kruskal implements GraphAlgorithm {
                 }
 
                 if (containing.size() == 2) {
-                    edge.setVisited(edge.getVisited() + 1);
+                    edge.setVisited(1);
                     //TODO description if needed
                     stepByStepProtocol.add(getNewStepFor(adjacencyMatrix.clone(), visitedNodes, edge, true));
 

@@ -69,7 +69,12 @@ public class DepthFirstSearch implements GraphAlgorithm {
         while (nodeHeap.size() > 0){
             newStep = new Step(this.adjacencyMatrix.clone());
             newStep.addAdditionalInformation(NODE_HEAP, new ArrayList<>(nodeHeap));
-            newStep.addAdditionalInformation(DEPTH, depth + 1);
+            if (depth == 0) {
+                newStep.addAdditionalInformation(DEPTH,
+                        //following line should be split in depth and current node
+                        "TSN(" + adjacencyMatrix.getEdges().get(0).get(y).getFrom().getName() + ") = " + (depth + 1));
+            }
+
             this.stepByStepProtocol.add(newStep);
 
             for (int x = 0; x < adjacencyMatrix.getNodes().size(); x++) {
@@ -82,6 +87,11 @@ public class DepthFirstSearch implements GraphAlgorithm {
                     if (!nodeHeap.contains(from) && from.getVisited() == 0) {
                         nodeHeap.add(from);
                         from.setVisited(1);
+                        if (Objects.nonNull(currentEdge.getWeight())) {
+                            currentEdge.setVisited(1);
+                        } else {
+                            wrongDirectedEdge.setVisited(1);
+                        }
 
                         y = x;
                         x = 0;
@@ -89,7 +99,9 @@ public class DepthFirstSearch implements GraphAlgorithm {
 
                         newStep = new Step(this.adjacencyMatrix.clone());
                         newStep.addAdditionalInformation(NODE_HEAP, new ArrayList<>(nodeHeap));
-                        newStep.addAdditionalInformation(DEPTH, depth + 1);
+                        newStep.addAdditionalInformation(DEPTH,
+                                //following line should be split in depth and current node
+                                "TSN(" + currentEdge.getFrom().getName() + ") = " + (depth + 1));
                         this.stepByStepProtocol.add(newStep);
                     }
                 }

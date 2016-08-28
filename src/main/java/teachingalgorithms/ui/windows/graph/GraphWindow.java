@@ -23,12 +23,10 @@ package teachingalgorithms.ui.windows.graph;
 import teachingalgorithms.export.latex.LatexExporter;
 import teachingalgorithms.export.latex.graph.LatexBreadthFirstSearch;
 import teachingalgorithms.export.latex.graph.LatexDepthFirstSearch;
+import teachingalgorithms.export.latex.graph.LatexDijkstra;
 import teachingalgorithms.export.latex.graph.LatexKruskal;
 import teachingalgorithms.io.SaveFile;
-import teachingalgorithms.logic.graph.algorithm.BreadthFirstSearch;
-import teachingalgorithms.logic.graph.algorithm.DepthFirstSearch;
-import teachingalgorithms.logic.graph.algorithm.GraphAlgorithm;
-import teachingalgorithms.logic.graph.algorithm.Kruskal;
+import teachingalgorithms.logic.graph.algorithm.*;
 import teachingalgorithms.logic.graph.protocol.StepByStepProtocol;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
 import teachingalgorithms.ui.components.GraphPanel;
@@ -74,6 +72,8 @@ public class GraphWindow extends AlgorithmWindowSubstructure {
             exporter = new LatexDepthFirstSearch();
         } else if (algorithm instanceof BreadthFirstSearch) {
             exporter = new LatexBreadthFirstSearch();
+        } else if (algorithm instanceof Dijkstra) {
+            exporter = new LatexDijkstra();
         }
         //TODO add graphAlgorithm Exporter
 

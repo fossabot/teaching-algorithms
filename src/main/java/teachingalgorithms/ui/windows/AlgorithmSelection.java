@@ -23,17 +23,12 @@ package teachingalgorithms.ui.windows;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
-import teachingalgorithms.logic.graph.algorithm.BreadthFirstSearch;
-import teachingalgorithms.logic.graph.algorithm.DepthFirstSearch;
-import teachingalgorithms.logic.graph.algorithm.GraphAlgorithm;
-import teachingalgorithms.logic.graph.algorithm.Kruskal;
+import teachingalgorithms.logic.graph.algorithm.*;
 import teachingalgorithms.logic.graph.util.AdjacencyMatrix;
 import teachingalgorithms.logic.graph.util.Validator;
 import teachingalgorithms.logic.sorting.*;
@@ -217,6 +212,7 @@ public class AlgorithmSelection extends WindowSubstructure {
         graphSelection.addItem(MESSAGES.getMessage(Kruskal.getName()));
         graphSelection.addItem(MESSAGES.getMessage(BreadthFirstSearch.getName()));
         graphSelection.addItem(MESSAGES.getMessage(DepthFirstSearch.getName()));
+        graphSelection.addItem(MESSAGES.getMessage(Dijkstra.getName()));
     }
 
     private void startSelectedAlgorithm() {
@@ -288,6 +284,8 @@ public class AlgorithmSelection extends WindowSubstructure {
                 algorithm = new BreadthFirstSearch();
             } else if (selectedItem.equals(MESSAGES.getMessage(DepthFirstSearch.getName()))) {
                 algorithm = new DepthFirstSearch();
+            } else if (selectedItem.equals(MESSAGES.getMessage(Dijkstra.getName()))) {
+                algorithm = new Dijkstra();
             }
         } else {
             JOptionPane.showMessageDialog(

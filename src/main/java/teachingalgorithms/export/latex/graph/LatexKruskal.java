@@ -35,7 +35,7 @@ import java.util.Objects;
  * export format for kruskal.
  * @author Jonathan Lechner
  */
-public class LatexKruskal extends LatexExporter{
+public class LatexKruskal extends LatexExporter {
 
     /**
      * base structure for Table.
@@ -45,7 +45,8 @@ public class LatexKruskal extends LatexExporter{
      *     <li>5 sum of used edges</li>
      * </ul>
      */
-    private static final String laTex = "\\begin{tabular}{|c|c|l|c|}\n" +
+    private static final String laTex = "[6]\\\\" +
+            "\\begin{tabular}{|c|c|l|c|}\n" +
             "\\hline" +
             " [0] & [1] & [2] & [3] \\\\\n" +
             "\\hline" +
@@ -73,6 +74,19 @@ public class LatexKruskal extends LatexExporter{
 
         sum = 0;
         String rows = "";
+
+        String sortedEdges = "";
+        if (protocol.size() > 0) {
+            List<Edge> sortedEdgeList = (List<Edge>) protocol.get(0).getAdditionalInformation(Kruskal.SORTED_EDGES);
+            for (Edge currentEdge : sortedEdgeList) {
+                sortedEdges = sortedEdges + currentEdge.getFrom().getName() + "-" + currentEdge.getTo().getName() + ", ";
+            }
+            if (sortedEdges.length() >= 3) {
+                sortedEdges = sortedEdges.substring(0, sortedEdges.length() - 2) + "\\\\\n";
+            }
+            protocol.remove(0);
+        }
+
         for (Step step : protocol) {
             rows = rows.concat(stepAsRow(step));
         }
@@ -80,6 +94,7 @@ public class LatexKruskal extends LatexExporter{
         toReturn = setTextToHeader(toReturn, messages);
         toReturn = toReturn.replace("[4]", rows);
         toReturn = toReturn.replace("[5]", "$\\sum$ " + sum.toString());
+        toReturn = toReturn.replace("[6]", sortedEdges);
 
         return toReturn;
     }
@@ -103,9 +118,9 @@ public class LatexKruskal extends LatexExporter{
                 for (Node node : list) {
                     nodeList = nodeList.concat(node.getName() + ", ");
                 }
+                nodeList = nodeList.substring(0, nodeList.length() - 2);
                 nodeList = nodeList.concat("\\}, ");
             }
-            nodeList = nodeList.replaceAll(", \\}", "\\}");
         }
 
 

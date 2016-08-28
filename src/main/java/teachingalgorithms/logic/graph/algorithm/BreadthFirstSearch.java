@@ -67,6 +67,8 @@ public class BreadthFirstSearch implements GraphAlgorithm {
             adjacencyMatrix.getNodes().get(y).setVisited(1);
             newStep = new Step(this.adjacencyMatrix.clone());
             newStep.addAdditionalInformation(DepthFirstSearch.NODE_HEAP, new ArrayList<>(nodeHeap));
+            newStep.addAdditionalInformation(DepthFirstSearch.DEPTH,
+                    "Niv(" + adjacencyMatrix.getNodes().get(y).getName() + ") = 0");
             this.stepByStepProtocol.add(newStep);
 
             for (int x = 0; x < adjacencyMatrix.getNodes().size(); x++) {
@@ -80,10 +82,16 @@ public class BreadthFirstSearch implements GraphAlgorithm {
                     if (!nodeHeap.contains(from) && from.getVisited() == 0) {
                         nodeHeap.add(from);
                         depths.put(from , currentDepth + 1);
+                        if (Objects.nonNull(currentEdge.getWeight())) {
+                            currentEdge.setVisited(1);
+                        } else {
+                            wrongDirectedEdge.setVisited(1);
+                        }
 
                         newStep = new Step(this.adjacencyMatrix.clone());
                         newStep.addAdditionalInformation(DepthFirstSearch.NODE_HEAP, new ArrayList<>(nodeHeap));
-                        newStep.addAdditionalInformation(DepthFirstSearch.DEPTH, currentDepth + 1);
+                        newStep.addAdditionalInformation(DepthFirstSearch.DEPTH,
+                                "Niv(" + currentEdge.getFrom().getName() + ") = " + (currentDepth + 1));
                         this.stepByStepProtocol.add(newStep);
                     }
                 }
