@@ -36,6 +36,7 @@ import java.util.List;
 
 /**
  * To create or edit adjacency matrix
+ *
  * @author Jonathan Lechner
  */
 public class AdjacencyMatrixEditPanel extends JXPanel {
@@ -53,6 +54,8 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
     private GraphPanel graphPanel;
 
     private DeleteColumnTableModel tableModel;
+
+    private JXTable table;
 
     /**
      * builds frame
@@ -85,7 +88,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
         graphPanel = new GraphPanel("graph");
 
         tableModel = new DeleteColumnTableModel();
-        JXTable table = new JXTable(tableModel) {
+        table = new JXTable(tableModel) {
             @Override
             public TableCellRenderer getCellRenderer(int row, int column) {
                 return (jTable, o, b, b1, i, i1) -> {
@@ -158,6 +161,11 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
         List<String> newNodes = new ArrayList<>(Arrays.asList(textFieldList));
         // remove any empty elements
         newNodes.removeIf(predicate -> predicate.equals(""));
+        //remove duplicates
+        Set<String> withOutDuplicates = new HashSet<>();
+        withOutDuplicates.addAll(newNodes);
+        newNodes.clear();
+        newNodes.addAll(withOutDuplicates);
 
         for (Node node : nodes) {
             if (!(newNodes.contains(node.getName()))) {
@@ -178,11 +186,25 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
                 //TODO error message
             }
         }
+
+        // http://stackoverflow.com/questions/3454691/jtable-change-the-row-height-dynamically
+        for (int row = 0; row < table.getRowCount(); row++) {
+            int rowHeight = table.getRowHeight();
+
+            for (int column = 0; column < table.getColumnCount(); column++) {
+                Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
+                rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+            }
+
+            table.setRowHeight(row, rowHeight);
+        }
+
         graphPanel.updateMatrix(adjacencyMatrix);
     }
 
     /**
      * updates table on nodeChange (add).
+     *
      * @param node
      * @param index
      */
@@ -194,6 +216,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
 
     /**
      * updates table on nodeChange (remove).
+     *
      * @param index
      */
     private void removeNodeUI(int index) {
@@ -211,6 +234,7 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
 
     /**
      * like set text to window.
+     *
      * @param message
      */
     public void setTextToPanel(Messages message) {
@@ -226,13 +250,13 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
     private class DeleteColumnTableModel extends DefaultTableModel {
 
         /**
-         *
          * http://stackoverflow.com/questions/5938436/removing-column-from-tablemodel-in-java
+         *
          * @param column
          */
         private void removeColumn(int column) {
             columnIdentifiers.remove(column);
-            for (Object row: dataVector) {
+            for (Object row : dataVector) {
                 ((Vector) row).remove(column);
             }
             fireTableStructureChanged();

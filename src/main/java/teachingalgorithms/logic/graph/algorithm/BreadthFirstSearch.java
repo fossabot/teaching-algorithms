@@ -63,12 +63,17 @@ public class BreadthFirstSearch implements GraphAlgorithm {
     private void breadthFirstSearch(List<Node> nodeHeap, Map<Node, Integer> depths) {
         Step newStep;
         Integer y = 0;
+        boolean firstNullNiv = true;
         while (nodeHeap.size() > 0) {
             adjacencyMatrix.getNodes().get(y).setVisited(1);
             newStep = new Step(this.adjacencyMatrix.clone());
             newStep.addAdditionalInformation(DepthFirstSearch.NODE_HEAP, new ArrayList<>(nodeHeap));
-            newStep.addAdditionalInformation(DepthFirstSearch.DEPTH,
-                    "Niv(" + adjacencyMatrix.getNodes().get(y).getName() + ") = 0");
+            if (firstNullNiv) {
+                newStep.addAdditionalInformation(DepthFirstSearch.DEPTH,
+                        "Niv(" + adjacencyMatrix.getNodes().get(y).getName() + ") = 0");
+                firstNullNiv = false;
+            }
+
             this.stepByStepProtocol.add(newStep);
 
             for (int x = 0; x < adjacencyMatrix.getNodes().size(); x++) {

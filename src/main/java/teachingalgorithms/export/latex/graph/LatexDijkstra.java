@@ -91,6 +91,8 @@ public class LatexDijkstra extends LatexExporter {
         List<Node> borderNodes = (List<Node>) step.getAdditionalInformation(BORDER_NODES);
         List<Node> unvisitedNodes = (List<Node>) step.getAdditionalInformation(UNVISITED_NODES);
 
+        borderNodes.forEach(borderNode -> unvisitedNodes.remove(borderNode));
+
         String borderText = "";
         String unvisitedText = "";
 
