@@ -153,8 +153,10 @@ public class AdjacencyMatrixEditPanel extends JXPanel {
      */
     private void updateNodes() {
         List<Node> nodes = new ArrayList<>(adjacencyMatrix.getNodes());
+        //Normalize string
+        String textFieldText = nodeField.getText().toUpperCase();
         // remove not used chars
-        String textFieldText = nodeField.getText().replaceAll("(?!([A-Z]))(?!([0-9]))(?!,).", "");
+        textFieldText = textFieldText.replaceAll("(?!([A-Z]))(?!([0-9]))(?!,).", "");
         nodeField.setText(textFieldText);
         // get Array from String
         String[] textFieldList = textFieldText.split(",");

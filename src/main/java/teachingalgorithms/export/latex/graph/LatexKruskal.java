@@ -45,7 +45,8 @@ public class LatexKruskal extends LatexExporter {
      *     <li>5 sum of used edges</li>
      * </ul>
      */
-    private static final String laTex = "[6]\\\\" +
+    private static final String laTex = "[7]\\\\" +
+            "[6]\\\\" +
             "\\begin{tabular}{|c|c|l|c|}\n" +
             "\\hline" +
             " [0] & [1] & [2] & [3] \\\\\n" +
@@ -84,17 +85,22 @@ public class LatexKruskal extends LatexExporter {
             if (sortedEdges.length() >= 3) {
                 sortedEdges = sortedEdges.substring(0, sortedEdges.length() - 2) + "\\\\\n";
             }
-            protocol.remove(0);
         }
 
+        boolean firstRow = true;
         for (Step step : protocol) {
-            rows = rows.concat(stepAsRow(step));
+            if (firstRow) {
+                firstRow = false;
+            } else {
+                rows = rows.concat(stepAsRow(step));
+            }
         }
 
         toReturn = setTextToHeader(toReturn, messages);
-        toReturn = toReturn.replace("[4]", rows);
         toReturn = toReturn.replace("[5]", "$\\sum$ " + sum.toString());
         toReturn = toReturn.replace("[6]", sortedEdges);
+        toReturn = toReturn.replace("[7]", messages.getMessage("exporter.latex.sortedEdges").concat(":"));
+        toReturn = toReturn.replace("[4]", rows);
 
         return toReturn;
     }
