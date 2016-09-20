@@ -40,7 +40,7 @@ public class RadixSort extends SortingAlgorithm {
     /**
      * The protocol.
      */
-    private ArrayList<RadixStep> protocol = new ArrayList<RadixStep>();
+    private ArrayList<RadixStep> protocol = new ArrayList<>();
 
     /**
      * The input array.
@@ -54,15 +54,15 @@ public class RadixSort extends SortingAlgorithm {
      */
     public RadixSort(int[] input) {
         RadixStep firstStep = new RadixStep();
-        ArrayList<String> inputAsStrings = new ArrayList<String>();
+        ArrayList<String> inputAsStrings = new ArrayList<>();
         int max = 0;
         this.inputArray = input;
 
         // find the maximum length of one input element (letters needed for the
         // according value)
-        for (int i = 0; i < input.length; i++) {
-            if (max < ("" + input[i]).length()) {
-                max = ("" + input[i]).length();
+        for (int currentInputElement : input) {
+            if (max < ("" + currentInputElement).length()) {
+                max = ("" + currentInputElement).length();
             }
         }
 
@@ -70,8 +70,8 @@ public class RadixSort extends SortingAlgorithm {
          * all elements shorter than the longest element get filled with zeroes
 		 * so that they have the same length when represented as String
 		 */
-        for (int i = 0; i < input.length; i++) {
-            String input2add = "" + input[i];
+        for (int currentInputElement : input) {
+            String input2add = "" + currentInputElement;
             while (input2add.length() < max) {
                 input2add = "0" + input2add;
             }
@@ -108,7 +108,7 @@ public class RadixSort extends SortingAlgorithm {
                             + "W&auml;hrend die Zahlen im 1. Schritt nach der 1. Ziffer von rechts sortiert werden, werden sie im 2. Schritt nach der"
                             + "2. Ziffer von rechts sortiert, im 3. nach der 3. Ziffer usw. <br> "
                             + "Dies geschieht so lange, bis man mit allen Ziffern durch ist. <br>  <br>"
-                            + "Nach dem Einsortieren werden die Zahlen gesammelt. <br>"
+                            + "Nach dem Einsortieren/Verteilen werden die Zahlen gesammelt. <br>"
                             + "WICHTIG: der Reihe nach aus dem Fach F0 von oben nach unten, dann aus dem Fach F1 von oben nach unten, dann aus dem Fach F3 usw.");
         }
 
@@ -117,16 +117,16 @@ public class RadixSort extends SortingAlgorithm {
                     "Da dies die letzte Ziffer war, ist das Sortierverfahren nach diesem Schritt beendet.");
         }
 
-        for (int i = 0; i < collectedStrings.size(); i++) {
-			/*
+        for (String collectedString : collectedStrings) {
+            /*
 			 * in order to know which postBox to sort into, the character at the
 			 * position gets pulled and converted to an integer (the char '0'
 			 * has the value 48, the char '1' has the value 49 etc. -> that is
 			 * why the reduction by 48 is necessary)
 			 */
 
-            int number = collectedStrings.get(i).charAt(position) - 48;
-            step.getPostBox(number).add(collectedStrings.get(i));
+            int number = collectedString.charAt(position) - 48;
+            step.getPostBox(number).add(collectedString);
         }
 
     }
@@ -261,7 +261,7 @@ public class RadixSort extends SortingAlgorithm {
      * @return the string
      */
     private String sort2LaTeX(int stepNumber) {
-        String retString = "$\n\\underline{Sortieren}\\\\\n$\n\n" + "$\n\\begin{matrix}\n"
+        String retString = "$\n\\underline{Verteilen}\\\\\n$\n\n" + "$\n\\begin{matrix}\n"
                 + "F_0 & F_1 & F_2 & F_3 & F_4 & F_5 & F_6 & F_7 & F_8 & F_9 \\\\ \n";
         RadixStep step = protocol.get(stepNumber);
 
